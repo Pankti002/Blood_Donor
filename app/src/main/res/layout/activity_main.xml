@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F32F2F"
+    android:padding="20dp"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:elevation="10dp"
+        android:focusableInTouchMode="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="15dp"
+        android:layout_marginBottom="20dp">
+
+    <TextView
+        android:id="@+id/tv_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Data"
+        android:textColor="#F32F2F"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/horizontalScrollView"
+        android:layout_below="@id/tv_head">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:id="@+id/layout"
+            >
+
+            <TableLayout
+                android:id="@+id/table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                >
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="1dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:paddingVertical="0dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_userName"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="UserName"
+                        android:gravity="center"
+                        android:layout_gravity="center_vertical"
+                        android:padding="5dp"
+                        android:background="@drawable/cell_shape"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/tv_contactNo"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/cell_shape"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Contact No"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/tv_bloodType"
+                        android:layout_width="100dp"
+                        android:paddingLeft="5dp"
+                        android:paddingVertical="5dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/cell_shape"
+                        android:text="Blood Type"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/tv_email"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:background="@drawable/cell_shape"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/tv_password"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="Password"
+                        android:gravity="center"
+                        android:background="@drawable/cell_shape"
+                        android:layout_gravity="center_vertical"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:text="Actions"
+                        android:textColor="@color/black"
+                        android:textSize="18dp"
+                        android:gravity="center"
+                        android:id="@+id/act"
+                        android:background="@drawable/cell_shape"
+                        android:padding="6dp" />
+
+                </TableRow>
+            </TableLayout>
+
+            <ListView
+                android:id="@+id/ls_User_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/table"
+                android:layout_marginTop="10dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="20dp"
+                android:textColor="#000"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+    </HorizontalScrollView>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
