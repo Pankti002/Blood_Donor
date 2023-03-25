@@ -85,6 +85,11 @@ public class DonorListAdapter extends BaseAdapter {
 
                 Intent intent=new Intent(context,DonorUpdateActivity.class);
                 intent.putExtra("DONOR_ID",id);
+                intent.putExtra("USERNAME",donorLangModelArrayList.get(position).getUserName());
+                intent.putExtra("CONTACT_NO",donorLangModelArrayList.get(position).getContactNo());
+                intent.putExtra("BLOOD_TYPE",donorLangModelArrayList.get(position).getBloodType());
+                intent.putExtra("EMAIL",donorLangModelArrayList.get(position).getEmail());
+                intent.putExtra("PASSWORD",donorLangModelArrayList.get(position).getPassword());
 
                 context.startActivity(intent);
             }

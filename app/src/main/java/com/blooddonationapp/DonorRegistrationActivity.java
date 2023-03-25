@@ -1,8 +1,13 @@
 package com.blooddonationapp;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,6 +28,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +46,9 @@ public class DonorRegistrationActivity extends AppCompatActivity {
     String strBloodGroups[] = {"Select your Blood Group", "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"};
     Spinner spinnerBloodGrp;
     String strBloodGrpSelected;
+
+    CustomLinkedList list = new CustomLinkedList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,19 +142,25 @@ public class DonorRegistrationActivity extends AppCompatActivity {
                 else{
                     //linkedList
                     Log.e("api calling","now");
-                    addDonor(strName, strContactNo,strBloodGrpSelected, strEmail, strPassword);
+                    addDonor(strName, strContactNo,strBloodGrpSelected, strEmail, strPassword, list);
                 }
             }
         });
 
+
+
+
     }
 
-    private void addDonor(String strName, String strContactNo,String strBloodGrpSelected, String strEmail, String strPassword) {
+    private void addDonor(String strName, String strContactNo,String strBloodGrpSelected, String strEmail, String strPassword, CustomLinkedList list) {
         Log.e("api calling","done"+strName+strContactNo+strBloodGrpSelected+strEmail+strPassword);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, util.DONOR_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("data",response);
+
+
+                list.insert(strName,strContactNo,strBloodGrpSelected,strEmail,strPassword);
+                list.show();
                 Intent intent = new Intent(DonorRegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -165,4 +183,5 @@ public class DonorRegistrationActivity extends AppCompatActivity {
         };
         VolleySingleton.getInstance(DonorRegistrationActivity.this).addToRequestQueue(stringRequest);
     }
+
 }

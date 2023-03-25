@@ -1,14 +1,24 @@
 package com.blooddonationapp;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -19,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import utils.VolleySingleton;
@@ -32,6 +43,9 @@ public class DonorUpdateActivity extends AppCompatActivity {
     String strBloodGroups[] = {"Select your Blood Group", "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"};
     Spinner spinnerBloodGrp;
     String strBloodGrpSelected;
+
+    CustomLinkedList list = new CustomLinkedList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +71,7 @@ public class DonorUpdateActivity extends AppCompatActivity {
         String strPassword=i.getStringExtra("PASSWORD");
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strBloodGroups);
-        int position = adapter.getPosition(strBloodType);
-        spinnerBloodGrp.post(new Runnable() {
-            @Override
-            public void run() {
-                spinnerBloodGrp.setSelection(position);
-            }
-        });
-
+        autoFillSpinner(strBloodType);
 
         DonorLangModel donorLangModel=new DonorLangModel();
         edt_name.setText(strUserName);
@@ -74,14 +80,42 @@ public class DonorUpdateActivity extends AppCompatActivity {
         edt_password.setText(strPassword);
 
 
+        ArrayAdapter<String> arrayAdapter = new
+                ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strBloodGroups) {
+                    @Override
+                    public View getDropDownView(int position, @Nullable View convertView,
+                                                @NonNull ViewGroup parent) {
+
+                        TextView tvData = (TextView) super.getDropDownView(position, convertView, parent);
+                        tvData.setTextColor(Color.BLACK);
+                        tvData.setTextSize(20);
+                        return tvData;
+                    }
+                };
+        spinnerBloodGrp.setAdapter(arrayAdapter);
+
+        spinnerBloodGrp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                strBloodGrpSelected = strBloodGroups[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteAPI(strDonorId);
+                list.deleteNode(list.head,strUserName);
+                list.show();
+//                deleteAPI(strDonorId);
             }
         });
-
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,13 +167,27 @@ public class DonorUpdateActivity extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(DonorUpdateActivity.this, "Validation Successful", Toast.LENGTH_LONG).show();
-                    UpdateApiCall(strDonorId, strUserName, strContactNo, strBloodType, strEmail, strPassword);
+                    UpdateApiCall(strDonorId, strUserName, strContactNo, strBloodGrpSelected, strEmail, strPassword);
                 }
+            }
+        });
+
+    }
+
+    private void autoFillSpinner(String strBloodType) {
+        Log.e("strBloodGrpSelected", strBloodType);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strBloodGroups);
+        int position = adapter.getPosition(strBloodType);
+        spinnerBloodGrp.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("in","run");
+                spinnerBloodGrp.setSelection(position);
             }
         });
     }
 
-    private void UpdateApiCall(String strDonorId, String strUserName, String strContactNo, String strBloodType, String strEmail, String strPassword) {
+    private void UpdateApiCall(String strDonorId, String strUserName, String strContactNo, String strBloodGrpSelected, String strEmail, String strPassword) {
         StringRequest stringRequest = new StringRequest(Request.Method.PUT, util.DONOR_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -160,7 +208,7 @@ public class DonorUpdateActivity extends AppCompatActivity {
                 hashMap.put("donorId", strDonorId);
                 hashMap.put("userName",strUserName);
                 hashMap.put("contactNo", strContactNo);
-                hashMap.put("bloodType", strBloodType);
+                hashMap.put("bloodType", strBloodGrpSelected);
                 hashMap.put("email", strEmail);
                 hashMap.put("password",strPassword);
                 return hashMap;
@@ -208,3 +256,4 @@ public class DonorUpdateActivity extends AppCompatActivity {
     }
 
 }
+
