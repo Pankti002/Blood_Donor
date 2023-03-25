@@ -24,7 +24,7 @@
             android:name=".SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".DonorRegistrationActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".SignupActivity"
@@ -39,7 +39,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".DonorRegistrationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

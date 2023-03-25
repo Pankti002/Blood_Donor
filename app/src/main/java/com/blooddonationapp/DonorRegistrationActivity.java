@@ -5,6 +5,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -33,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import utils.VolleySingleton;
@@ -47,7 +52,8 @@ public class DonorRegistrationActivity extends AppCompatActivity {
     Spinner spinnerBloodGrp;
     String strBloodGrpSelected;
 
-    CustomLinkedList list = new CustomLinkedList();
+    CustomLinkedList list=new CustomLinkedList();
+
 
 
     @Override
@@ -142,7 +148,18 @@ public class DonorRegistrationActivity extends AppCompatActivity {
                 else{
                     //linkedList
                     Log.e("api calling","now");
-                    addDonor(strName, strContactNo,strBloodGrpSelected, strEmail, strPassword, list);
+                    Intent intent1=new Intent(DonorRegistrationActivity.this,DonorUpdateActivity.class);
+
+                    list.insert(strName,strContactNo,strBloodGrpSelected,strEmail,strPassword);
+                    list.show();
+                    Log.e(String.valueOf(list),"list");
+
+                    intent1.putExtra("linked_list", (Serializable) list);
+                    startActivity(intent1);
+
+
+
+                    addDonor(strName, strContactNo,strBloodGrpSelected, strEmail, strPassword);
                 }
             }
         });
@@ -150,17 +167,16 @@ public class DonorRegistrationActivity extends AppCompatActivity {
 
 
 
+
     }
 
-    private void addDonor(String strName, String strContactNo,String strBloodGrpSelected, String strEmail, String strPassword, CustomLinkedList list) {
+    private void addDonor(String strName, String strContactNo,String strBloodGrpSelected, String strEmail, String strPassword) {
         Log.e("api calling","done"+strName+strContactNo+strBloodGrpSelected+strEmail+strPassword);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, util.DONOR_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
 
-                list.insert(strName,strContactNo,strBloodGrpSelected,strEmail,strPassword);
-                list.show();
                 Intent intent = new Intent(DonorRegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -184,4 +200,16 @@ public class DonorRegistrationActivity extends AppCompatActivity {
         VolleySingleton.getInstance(DonorRegistrationActivity.this).addToRequestQueue(stringRequest);
     }
 
+    private void commitToFile(String userName, String contactNo, String bloodType,String email,
+                              String password) throws IOException {
+        final String entryString = new String("userName=" + userName
+                + ";contactNo=" + contactNo + ";bloodType="
+                + bloodType + ";Email"+ email+ ";password"+password);
+        FileOutputStream fOut = openFileOutput("savedData.txt",
+                MODE_APPEND);
+        OutputStreamWriter osw = new OutputStreamWriter(fOut);
+        osw.write(entryString);
+        osw.flush();
+        osw.close();
+    }
 }

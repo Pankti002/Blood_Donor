@@ -44,7 +44,6 @@ public class DonorUpdateActivity extends AppCompatActivity {
     Spinner spinnerBloodGrp;
     String strBloodGrpSelected;
 
-    CustomLinkedList list = new CustomLinkedList();
 
 
     @Override
@@ -58,6 +57,9 @@ public class DonorUpdateActivity extends AppCompatActivity {
         edt_email = findViewById(R.id.inputEmail);
         edt_password = findViewById(R.id.inputPassword);
 
+        Intent intent=getIntent();
+        CustomLinkedList list1=(CustomLinkedList)getIntent().getSerializableExtra("linked_list");
+
         btnUpdate = findViewById(R.id.updateButton);
         btnDelete=findViewById(R.id.deleteButton);
 
@@ -70,8 +72,7 @@ public class DonorUpdateActivity extends AppCompatActivity {
         String strEmail=i.getStringExtra("EMAIL");
         String strPassword=i.getStringExtra("PASSWORD");
 
-
-        autoFillSpinner(strBloodType);
+        autoFillSpinner("O+");
 
         DonorLangModel donorLangModel=new DonorLangModel();
         edt_name.setText(strUserName);
@@ -111,8 +112,10 @@ public class DonorUpdateActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                list.deleteNode(list.head,strUserName);
-                list.show();
+
+//                Log.e("data in delete", String.valueOf(list1.show()));
+//                list.deleteNode(list.head,strUserName);
+                list1.show();
 //                deleteAPI(strDonorId);
             }
         });

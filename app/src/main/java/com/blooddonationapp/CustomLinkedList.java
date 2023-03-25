@@ -2,11 +2,8 @@ package com.blooddonationapp;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.LinkedList;
-
-public class LinkedListData {
-
-}
 
 class Node {
     String userName,contactNo,bloodType,email,password;
@@ -23,7 +20,7 @@ class Node {
     }
 }
 
-class CustomLinkedList extends LinkedList {
+class CustomLinkedList  {
     Node head;
 
     public void insert(String name,String contactNo,String type,String email,String password) {
