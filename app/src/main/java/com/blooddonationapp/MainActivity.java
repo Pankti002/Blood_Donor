@@ -34,16 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listview = findViewById(R.id.ls_User_listview);
-
-        //Update button
-//        btnAdd = findViewById(R.id.btn_add);
-//        btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, UserActivity.class);
-//                startActivity(intent);
-//            }
-//        });
         GetDonorsApi();
     }
 

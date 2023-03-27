@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -24,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -45,6 +48,7 @@ import utils.util;
 
 public class DonorRegistrationActivity extends AppCompatActivity {
 
+    private static final String FILE_NAME="data.txt";
     TextInputEditText edt_name, edt_number, edt_email, edt_password;
     Button btnRegister;
 
@@ -52,7 +56,6 @@ public class DonorRegistrationActivity extends AppCompatActivity {
     Spinner spinnerBloodGrp;
     String strBloodGrpSelected;
 
-    CustomLinkedList list=new CustomLinkedList();
 
 
 
@@ -146,19 +149,7 @@ public class DonorRegistrationActivity extends AppCompatActivity {
                     edt_password.setError("PASSWORD MUST CONTAIN AT LEAST :\n ONE DIGIT, ONE LOWERCASE LETTER, ONE UPPERCASE LETTER,AND A SPECIAL CHARATER\nNO SPACE ALLOWED\nMINIMUM 8 CHARACTERS ALLOWED");
                 }
                 else{
-                    //linkedList
                     Log.e("api calling","now");
-                    Intent intent1=new Intent(DonorRegistrationActivity.this,DonorUpdateActivity.class);
-
-                    list.insert(strName,strContactNo,strBloodGrpSelected,strEmail,strPassword);
-                    list.show();
-                    Log.e(String.valueOf(list),"list");
-
-                    intent1.putExtra("linked_list", (Serializable) list);
-                    startActivity(intent1);
-
-
-
                     addDonor(strName, strContactNo,strBloodGrpSelected, strEmail, strPassword);
                 }
             }
@@ -175,8 +166,6 @@ public class DonorRegistrationActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, util.DONOR_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-
                 Intent intent = new Intent(DonorRegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -198,18 +187,5 @@ public class DonorRegistrationActivity extends AppCompatActivity {
             }
         };
         VolleySingleton.getInstance(DonorRegistrationActivity.this).addToRequestQueue(stringRequest);
-    }
-
-    private void commitToFile(String userName, String contactNo, String bloodType,String email,
-                              String password) throws IOException {
-        final String entryString = new String("userName=" + userName
-                + ";contactNo=" + contactNo + ";bloodType="
-                + bloodType + ";Email"+ email+ ";password"+password);
-        FileOutputStream fOut = openFileOutput("savedData.txt",
-                MODE_APPEND);
-        OutputStreamWriter osw = new OutputStreamWriter(fOut);
-        osw.write(entryString);
-        osw.flush();
-        osw.close();
     }
 }

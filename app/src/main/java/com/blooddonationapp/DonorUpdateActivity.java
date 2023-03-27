@@ -57,8 +57,6 @@ public class DonorUpdateActivity extends AppCompatActivity {
         edt_email = findViewById(R.id.inputEmail);
         edt_password = findViewById(R.id.inputPassword);
 
-        Intent intent=getIntent();
-        CustomLinkedList list1=(CustomLinkedList)getIntent().getSerializableExtra("linked_list");
 
         btnUpdate = findViewById(R.id.updateButton);
         btnDelete=findViewById(R.id.deleteButton);
@@ -115,7 +113,7 @@ public class DonorUpdateActivity extends AppCompatActivity {
 
 //                Log.e("data in delete", String.valueOf(list1.show()));
 //                list.deleteNode(list.head,strUserName);
-                list1.show();
+//                list1.show();
 //                deleteAPI(strDonorId);
             }
         });
